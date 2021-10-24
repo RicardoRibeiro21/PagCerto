@@ -66,3 +66,11 @@ D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microso
 D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Newtonsoft.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Ricardo\Entrevista\PagCerto\PagCerto\PagCerto\obj\Debug\netcoreapp3.1\PagCerto.MvcApplicationPartsAssemblyInfo.cs
