@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace PagCerto.src.api.Models
 {
-    public partial class TbAcquirerConfirmation
+    public partial class AcquirerConfirmation
     {
-        public TbAcquirerConfirmation()
+        public AcquirerConfirmation()
         {
-            TbTransactions = new HashSet<TbTransaction>();
+            Transactions = new HashSet<Transaction>();
         }
 
         public int IdStatus { get; set; }
         public string DescriptionAcquirer { get; set; }
         public bool Active { get; set; }
 
-        public virtual ICollection<TbTransaction> TbTransactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

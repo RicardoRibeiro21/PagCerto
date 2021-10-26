@@ -5,11 +5,12 @@ using System.Collections.Generic;
 
 namespace PagCerto.src.api.Models
 {
-    public partial class TbTransaction
+    public partial class Transaction
     {
-        public TbTransaction()
+        public Transaction()
         {
-            TbParcels = new HashSet<TbParcel>();
+            AnticipationTransactions = new HashSet<AnticipationTransaction>();
+            Parcels = new HashSet<Parcel>();
         }
 
         public int IdTransaction { get; set; }
@@ -24,7 +25,8 @@ namespace PagCerto.src.api.Models
         public int NumberParcel { get; set; }
         public string TypeCard { get; set; }
 
-        public virtual TbAcquirerConfirmation AcquirerConfirmationNavigation { get; set; }
-        public virtual ICollection<TbParcel> TbParcels { get; set; }
+        public virtual AcquirerConfirmation AcquirerConfirmationNavigation { get; set; }
+        public virtual ICollection<AnticipationTransaction> AnticipationTransactions { get; set; }
+        public virtual ICollection<Parcel> Parcels { get; set; }
     }
 }

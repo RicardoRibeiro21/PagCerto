@@ -18,8 +18,7 @@ namespace PagCerto.src.api.Controllers
         public IActionResult GetTransaction()
         {
             try
-            {
-                //Retornando o resultado (Lista de todos os clientes) 
+            {                
                 TransactionRepository transactionRepository = new TransactionRepository();
                 return Ok(transactionRepository.GetTransactions());
             }
@@ -30,8 +29,7 @@ namespace PagCerto.src.api.Controllers
         public IActionResult GetTransactionById(int idTransaction)
         {
             try
-            {
-                //Retornando o resultado (Lista de todos os clientes) 
+            {                
                 TransactionRepository transactionRepository = new TransactionRepository();
                 return Ok(transactionRepository.GetTransactionById(idTransaction));
             }
@@ -39,13 +37,13 @@ namespace PagCerto.src.api.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostTransaction(TbTransaction transaction)
+        public IActionResult PostTransaction(Transaction transaction)
         {
             try
             {
                 TransactionRepository transactionRepository = new TransactionRepository();
-                transactionRepository.PostTransaction(transaction);
-                return Ok("Transação cadastrada!");
+                Feedback feedback = transactionRepository.PostTransaction(transaction);
+                return Ok(feedback.message);
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }

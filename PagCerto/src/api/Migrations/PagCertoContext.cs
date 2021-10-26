@@ -18,16 +18,19 @@ namespace PagCerto.src.api.Migrations
         {
         }
 
-        public virtual DbSet<TbAcquirerConfirmation> TbAcquirerConfirmations { get; set; }
-        public virtual DbSet<TbParcel> TbParcels { get; set; }
-        public virtual DbSet<TbTransaction> TbTransactions { get; set; }
+        public virtual DbSet<AcquirerConfirmation> AcquirerConfirmations { get; set; }
+        public virtual DbSet<Anticipation> Anticipations { get; set; }
+        public virtual DbSet<AnticipationTransaction> AnticipationTransactions { get; set; }
+        public virtual DbSet<Parcel> Parcels { get; set; }
+        public virtual DbSet<ResultAnticipation> ResultAnticipations { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=ROGER\\SQLEXPRESS01; Initial Catalog=DBPAGCERTO;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=ROGER\\SQLEXPRESS01;Initial Catalog=DBPAGCERTO;Integrated Security=True");
             }
         }
 
@@ -35,14 +38,14 @@ namespace PagCerto.src.api.Migrations
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
-            modelBuilder.Entity<TbAcquirerConfirmation>(entity =>
+            modelBuilder.Entity<AcquirerConfirmation>(entity =>
             {
                 entity.HasKey(e => e.IdStatus)
-                    .HasName("PK__TB_ACQUI__C55A17644B792568");
+                    .HasName("PK__ACQUIRER__C55A1764345540FC");
 
-                entity.ToTable("TB_ACQUIRER_CONFIRMATION");
+                entity.ToTable("ACQUIRER_CONFIRMATIONS");
 
-                entity.HasIndex(e => e.DescriptionAcquirer, "UQ__TB_ACQUI__2D83C8C5FF76CD7A")
+                entity.HasIndex(e => e.DescriptionAcquirer, "UQ__ACQUIRER__2D83C8C564220107")
                     .IsUnique();
 
                 entity.Property(e => e.IdStatus).HasColumnName("ID_STATUS");
@@ -56,12 +59,80 @@ namespace PagCerto.src.api.Migrations
                     .HasColumnName("DESCRIPTION_ACQUIRER");
             });
 
-            modelBuilder.Entity<TbParcel>(entity =>
+            modelBuilder.Entity<Anticipation>(entity =>
+            {
+                entity.HasKey(e => e.IdAnticipation)
+                    .HasName("PK__ANTICIPA__B73FB100DD4A5269");
+
+                entity.ToTable("ANTICIPATIONS");
+
+                entity.Property(e => e.IdAnticipation).HasColumnName("ID_ANTICIPATION");
+
+                entity.Property(e => e.DateBegin)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DATE_BEGIN");
+
+                entity.Property(e => e.DateFinish)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DATE_FINISH");
+
+                entity.Property(e => e.DateRequest)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DATE_REQUEST");
+
+                entity.Property(e => e.IdResultAnticipation).HasColumnName("ID_RESULT_ANTICIPATION");
+
+                entity.Property(e => e.ValueAnticipation)
+                    .HasColumnType("decimal(20, 4)")
+                    .HasColumnName("VALUE_ANTICIPATION");
+
+                entity.Property(e => e.ValueRequest)
+                    .HasColumnType("decimal(20, 4)")
+                    .HasColumnName("VALUE_REQUEST");
+
+                entity.HasOne(d => d.IdResultAnticipationNavigation)
+                    .WithMany(p => p.Anticipations)
+                    .HasForeignKey(d => d.IdResultAnticipation)
+                    .HasConstraintName("FK__ANTICIPAT__ID_RE__0E6E26BF");
+            });
+
+            modelBuilder.Entity<AnticipationTransaction>(entity =>
+            {
+                entity.HasKey(e => e.IdAnticipationTransaction)
+                    .HasName("PK__ANTICIPA__D83FA6126811EB7D");
+
+                entity.ToTable("ANTICIPATION_TRANSACTIONS");
+
+                entity.Property(e => e.IdAnticipationTransaction).HasColumnName("ID_ANTICIPATION_TRANSACTION");
+
+                entity.Property(e => e.IdAnticipation).HasColumnName("ID_ANTICIPATION");
+
+                entity.Property(e => e.IdResultAnticipation).HasColumnName("ID_RESULT_ANTICIPATION");
+
+                entity.Property(e => e.IdTransaction).HasColumnName("ID_TRANSACTION");
+
+                entity.HasOne(d => d.IdAnticipationNavigation)
+                    .WithMany(p => p.AnticipationTransactions)
+                    .HasForeignKey(d => d.IdAnticipation)
+                    .HasConstraintName("FK__ANTICIPAT__ID_AN__114A936A");
+
+                entity.HasOne(d => d.IdResultAnticipationNavigation)
+                    .WithMany(p => p.AnticipationTransactions)
+                    .HasForeignKey(d => d.IdResultAnticipation)
+                    .HasConstraintName("FK__ANTICIPAT__ID_RE__123EB7A3");
+
+                entity.HasOne(d => d.IdTransactionNavigation)
+                    .WithMany(p => p.AnticipationTransactions)
+                    .HasForeignKey(d => d.IdTransaction)
+                    .HasConstraintName("FK__ANTICIPAT__ID_TR__1332DBDC");
+            });
+
+            modelBuilder.Entity<Parcel>(entity =>
             {
                 entity.HasKey(e => e.IdParcel)
-                    .HasName("PK__TB_PARCE__BE6868C85A6D8D9E");
+                    .HasName("PK__PARCELS__BE6868C8DC5DFCC9");
 
-                entity.ToTable("TB_PARCEL");
+                entity.ToTable("PARCELS");
 
                 entity.Property(e => e.IdParcel).HasColumnName("ID_PARCEL");
 
@@ -90,17 +161,38 @@ namespace PagCerto.src.api.Migrations
                 entity.Property(e => e.NumberParcel).HasColumnName("NUMBER_PARCEL");
 
                 entity.HasOne(d => d.IdTransactionNavigation)
-                    .WithMany(p => p.TbParcels)
+                    .WithMany(p => p.Parcels)
                     .HasForeignKey(d => d.IdTransaction)
-                    .HasConstraintName("FK__TB_PARCEL__ID_TR__5812160E");
+                    .HasConstraintName("FK__PARCELS__ID_TRAN__08B54D69");
             });
 
-            modelBuilder.Entity<TbTransaction>(entity =>
+            modelBuilder.Entity<ResultAnticipation>(entity =>
+            {
+                entity.HasKey(e => e.IdResult)
+                    .HasName("PK__RESULT_A__D5088D441E12E16D");
+
+                entity.ToTable("RESULT_ANTICIPATIONS");
+
+                entity.HasIndex(e => e.DescriptionResult, "UQ__RESULT_A__923B26E54DD7B839")
+                    .IsUnique();
+
+                entity.Property(e => e.IdResult).HasColumnName("ID_RESULT");
+
+                entity.Property(e => e.Active).HasColumnName("ACTIVE");
+
+                entity.Property(e => e.DescriptionResult)
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .IsUnicode(false)
+                    .HasColumnName("DESCRIPTION_RESULT");
+            });
+
+            modelBuilder.Entity<Transaction>(entity =>
             {
                 entity.HasKey(e => e.IdTransaction)
-                    .HasName("PK__TB_TRANS__2029827D7A72FACE");
+                    .HasName("PK__TRANSACT__2029827DAC68520F");
 
-                entity.ToTable("TB_TRANSACTION");
+                entity.ToTable("TRANSACTIONS");
 
                 entity.Property(e => e.IdTransaction).HasColumnName("ID_TRANSACTION");
 
@@ -147,9 +239,9 @@ namespace PagCerto.src.api.Migrations
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.AcquirerConfirmationNavigation)
-                    .WithMany(p => p.TbTransactions)
+                    .WithMany(p => p.Transactions)
                     .HasForeignKey(d => d.AcquirerConfirmation)
-                    .HasConstraintName("FK__TB_TRANSA__ACQUI__5535A963");
+                    .HasConstraintName("FK__TRANSACTI__ACQUI__02FC7413");
             });
 
             OnModelCreatingPartial(modelBuilder);

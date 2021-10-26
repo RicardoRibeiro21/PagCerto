@@ -8,12 +8,12 @@ namespace PagCerto.src.api.Extensions
 {
     public class ValidationsTransaction
     {
-        public TransactionFeedBack ValidationNumberCard(string numberCard)
+        public Feedback ValidationNumberCard(string numberCard)
         {
-            TransactionFeedBack transactionFeedBack = new TransactionFeedBack();
+            Feedback transactionFeedBack = new Feedback();
             if (!String.IsNullOrEmpty(numberCard))
             {
-                if (numberCard.Any(char.IsDigit))
+                if (numberCard.All(char.IsDigit) && numberCard.Length == 16)
                 {
                     transactionFeedBack.approval = true;
                     transactionFeedBack.message = "Cartão válido.";
@@ -25,20 +25,20 @@ namespace PagCerto.src.api.Extensions
 
             return transactionFeedBack;
         }
-        public TransactionFeedBack ValidationCardRefused(string numberCard)
+        public Feedback ValidationCardRefused(string numberCard)
         {
-            TransactionFeedBack transactionFeedBack = new TransactionFeedBack();
+            Feedback transactionFeedBack = new Feedback();
             if (!String.IsNullOrEmpty(numberCard))
             {
                 if (numberCard.PadLeft(4) == "5999")
                 {
-                    transactionFeedBack.approval = true;
-                    transactionFeedBack.message = "Cartão aprovado.";
+                    transactionFeedBack.approval = false;
+                    transactionFeedBack.message = "Cartão recusado.";                    
                     return transactionFeedBack;
                 }
             }
-            transactionFeedBack.approval = false;
-            transactionFeedBack.message = "Cartão recusado.";
+            transactionFeedBack.approval = true;
+            transactionFeedBack.message = "Cartão aprovado.";
 
             return transactionFeedBack;
         }

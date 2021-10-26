@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PagCerto.src.api.Models
 {
-    public partial class TbParcel
+    public partial class Parcel
     {
         public int IdParcel { get; set; }
         public int? IdTransaction { get; set; }
@@ -16,6 +16,6 @@ namespace PagCerto.src.api.Models
         public DateTime? DateExpectedInstallment { get; set; }
         public DateTime? DateAdvanceInstallment { get; set; }
 
-        public virtual TbTransaction IdTransactionNavigation { get; set; }
+        public virtual Transaction IdTransactionNavigation { get; set; }
     }
 }
