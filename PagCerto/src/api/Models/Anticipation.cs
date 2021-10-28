@@ -19,8 +19,10 @@ namespace PagCerto.src.api.Models
         public int? IdResultAnticipation { get; set; }
         public decimal ValueRequest { get; set; }
         public decimal ValueAnticipation { get; set; }
+        public int? IdWorkflowAnticipation { get; set; }
 
         public virtual ResultAnticipation IdResultAnticipationNavigation { get; set; }
+        public virtual WorkflowAnticipation IdWorkflowAnticipationNavigation { get; set; }
         public virtual ICollection<AnticipationTransaction> AnticipationTransactions { get; set; }
     }
 }

@@ -14,6 +14,13 @@ namespace PagCerto.src.api.Models
         public int idTransaction { get; set; }
         public int idDecision { get; set; }
     }
+
+    public class AnticipationApproval
+    {
+        public int idAnticipation { get; set; }
+        public TransactionApproval[] transactionApproval { get; set; }
+    }
+
     public class Feedback
     {
         public bool approval { get; set; }

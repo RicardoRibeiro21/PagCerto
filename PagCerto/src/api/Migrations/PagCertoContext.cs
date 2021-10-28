@@ -24,6 +24,7 @@ namespace PagCerto.src.api.Migrations
         public virtual DbSet<Parcel> Parcels { get; set; }
         public virtual DbSet<ResultAnticipation> ResultAnticipations { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<WorkflowAnticipation> WorkflowAnticipations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -82,6 +83,8 @@ namespace PagCerto.src.api.Migrations
 
                 entity.Property(e => e.IdResultAnticipation).HasColumnName("ID_RESULT_ANTICIPATION");
 
+                entity.Property(e => e.IdWorkflowAnticipation).HasColumnName("ID_WORKFLOW_ANTICIPATION");
+
                 entity.Property(e => e.ValueAnticipation)
                     .HasColumnType("decimal(20, 4)")
                     .HasColumnName("VALUE_ANTICIPATION");
@@ -94,6 +97,11 @@ namespace PagCerto.src.api.Migrations
                     .WithMany(p => p.Anticipations)
                     .HasForeignKey(d => d.IdResultAnticipation)
                     .HasConstraintName("FK__ANTICIPAT__ID_RE__0E6E26BF");
+
+                entity.HasOne(d => d.IdWorkflowAnticipationNavigation)
+                    .WithMany(p => p.Anticipations)
+                    .HasForeignKey(d => d.IdWorkflowAnticipation)
+                    .HasConstraintName("FK__ANTICIPAT__ID_WO__17036CC0");
             });
 
             modelBuilder.Entity<AnticipationTransaction>(entity =>
@@ -242,6 +250,27 @@ namespace PagCerto.src.api.Migrations
                     .WithMany(p => p.Transactions)
                     .HasForeignKey(d => d.AcquirerConfirmation)
                     .HasConstraintName("FK__TRANSACTI__ACQUI__02FC7413");
+            });
+
+            modelBuilder.Entity<WorkflowAnticipation>(entity =>
+            {
+                entity.HasKey(e => e.IdWorkflow)
+                    .HasName("PK__WORKFLOW__72E7CB26FB05AC99");
+
+                entity.ToTable("WORKFLOW_ANTICIPATION");
+
+                entity.HasIndex(e => e.DescriptionWorkflow, "UQ__WORKFLOW__C3C173051922F8B1")
+                    .IsUnique();
+
+                entity.Property(e => e.IdWorkflow).HasColumnName("ID_WORKFLOW");
+
+                entity.Property(e => e.Active).HasColumnName("ACTIVE");
+
+                entity.Property(e => e.DescriptionWorkflow)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("DESCRIPTION_WORKFLOW");
             });
 
             OnModelCreatingPartial(modelBuilder);
